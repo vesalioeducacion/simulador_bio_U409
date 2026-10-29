@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIOLOGÍA - Fisiología y Bioquímica Digestiva (Facultad de Cs. Médicas - UCCuyo)</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- KaTeX for medical and biochemical LaTeX rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" 
+          onload="renderMathInDocument()"></script>
+
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #f7f9f6;
+      color: #1e293b;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Paleta Institucional UCCuyo (Verde Oliva y Contrastes Biomédicos) */
+    .text-accent { color: #436600; }
+    .bg-accent { background-color: #436600; }
+    .bg-accent-hover:hover { background-color: #324d00; }
+    .bg-accent-light { background-color: #f1f6eb; }
+    .border-accent { border-color: #436600; }
+
+    .text-primary { color: #436600; }
+    .bg-primary { background-color: #436600; }
+    .bg-primary-dark { background-color: #324d00; }
+    .border-primary { border-color: #436600; }
+    
+    .focus-accent:focus {
+      border-color: #436600;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 102, 0, 0.2);
+    }
+    
+    input[type=range] {
+      accent-color: #436600;
+    }
+
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .interactive-card {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .interactive-card:hover {
+      transform: translateY(-2px);
+      border-color: #436600;
+      box-shadow: 0 10px 25px -5px rgba(67, 102, 0, 0.12);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-accent/20 text-gray-800">
+
+  <!-- Cabecera Institucional UCCuyo -->
+  <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-accent flex items-center justify-center text-white font-bold text-xl shadow-md">
+          BIO
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-gray-800 tracking-wide uppercase">BIOLOGÍA CELULAR Y HUMANA</h1>
+          <p class="text-xs text-gray-500 font-semibold">Curso de Ingreso a Medicina (Facultad de Cs. Médicas - UCCuyo)</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <!-- Botón Vademécum Teórico -->
+        <button onclick="openFormulasModal()" class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 hover:bg-gray-200 transition">
+          <i class="fa-solid fa-book-bookmark text-accent"></i>
+          <span class="hidden sm:inline">Vademécum</span>
+        </button>
+        <!-- Botón Guía de Uso -->
+        <button onclick="openTutorial()" class="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white text-xs font-semibold rounded-lg shadow-sm hover:opacity-90 transition">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Guía de Uso</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido Principal con Barra Lateral -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+    
+    <!-- Menú de Navegación Lateral -->
+    <nav class="w-full lg:w-64 flex flex-row lg:flex-col gap-2 bg-white p-3 rounded-2xl shadow-sm border border-gray-200 overflow-x-auto lg:overflow-x-visible whitespace-nowrap lg:whitespace-normal sticky top-20 h-fit" id="navTabs">
+      <button onclick="switchTab('mod1')" data-tab="mod1" class="nav-btn bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm flex items-center gap-2">
+        <i class="fa-solid fa-route"></i> <span>1. Anatomía & Anexas</span>
+      </button>
+      <button onclick="switchTab('mod2')" data-tab="mod2" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-layer-group"></i> <span>2. Histología & SNE</span>
+      </button>
+      <button onclick="switchTab('mod3')" data-tab="mod3" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-utensils"></i> <span>3. Boca & Deglución</span>
+      </button>
+      <button onclick="switchTab('mod4')" data-tab="mod4" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-flask"></i> <span>4. Estómago & HCl</span>
+      </button>
+      <button onclick="switchTab('mod5')" data-tab="mod5" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-vial-virus"></i> <span>5. Hígado & Páncreas</span>
+      </button>
+      <button onclick="switchTab('mod6')" data-tab="mod6" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2 border-t lg:border-t border-gray-100">
+        <i class="fa-solid fa-atom text-accent"></i> <span>6. Absorción Molecular</span>
+      </button>
+    </nav>
+
+    <!-- Área de Contenido Dinámico -->
+    <div class="flex-1 space-y-6 min-w-0">
+      <section id="content-mod1" class="module-view space-y-6">
+      <!-- Banner -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-accent mb-6">
+        <div class="max-w-3xl">
+          <div class="flex items-center space-x-2 text-accent text-xs font-semibold tracking-wider uppercase mb-1">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Módulo 1 • Organización General del Sistema Digestivo</span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Órganos del Tubo Digestivo y Glándulas Anexas</h2>
+          <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+            Revisión morfológica, anatomométrica y funcional del conducto muscular continuo ($\approx 9\,\text{m}$) y de los órganos glandulares accesorios que sintetizan y vierten enzimas hidrolíticas y soluciones amortiguadoras.
+          </p>
+        </div>
+      </div>
+
+      <!-- Sección A: Órganos del Tubo Digestivo Continuo -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-accent"></span>
+            <h3 class="font-bold text-slate-900 text-base">Tracto Digestivo Continuo</h3>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-accent-light text-accent border border-accent/20">
+            Conducto Luminal ($\approx 9\,\text{m}$)
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- 1. Boca y Faringe -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-accent/40 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-pink-100 text-pink-800">Segmento Inicial</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Cavidad Bucal</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-head-side-cough text-pink-600"></i> Boca y Faringe
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Límite superior del tubo revestido de epitelio estratificado plano no queratinizado de resistencia mecánica. La lengua y las piezas dentarias realizan la fragmentación mecánica.
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Fisiología Clave:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>Insalivación del bolo alimenticio e inicio del clivaje de almidón (ptialina).</li>
+                  <li>Encrucijada aerodigestiva faríngea (naso, oro y laringofaringe).</li>
+                  <li>Reflejo deglutorio involuntario coordinado por el centro bulbar.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Epitelio de fricción</span>
+              <span class="font-bold text-accent font-mono">NC V, IX, XII</span>
+            </div>
+          </div>
+
+          <!-- 2. Esófago -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-accent/40 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-100 text-rose-800">Conducto Muscular</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Longitud: $\approx 25\,\text{cm}$</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-arrows-down-to-line text-rose-600"></i> Esófago
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Conducto muscular que conecta la laringofaringe con el cardias atravesando el diafragma por el hiato esofágico ($T_{10}$). Presenta 3 estrechamientos: cricoideo, broncoórtico y frénico.
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Fisiología Clave:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>Transición: 1/3 sup. estriado esquelético $\to$ 1/3 inf. liso involuntario.</li>
+                  <li>Ondas peristálticas primarias y secundarias de propulsión.</li>
+                  <li>Esfínter esofágico inferior (EEI) tónico que evita el reflujo gastroesofágico.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Hiato diafragmático</span>
+              <span class="font-bold text-accent font-mono">$T_{10}$ • EES / EEI</span>
+            </div>
+          </div>
+
+          <!-- 3. Estómago -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-accent/40 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-sky-100 text-sky-800">Cámara en J</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Capacidad: $\approx 1.5\,\text{L}$</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-flask text-sky-600"></i> Estómago
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Cámara gástrica interpuesta entre el cardias y el esfínter pilórico. Posee 3 capas musculares (longitudinal, circular y oblicua) para efectuar trituración tridimensional enérgica del bolo en quimo ácido.
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Fisiología Clave:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>Células parietales: secreción de $\text{HCl}$ ($\text{pH} \approx 2$) y Factor Intrínseco.</li>
+                  <li>Células principales: secreción de pepsinógeno (endopeptidasa de proteínas).</li>
+                  <li>Células G mucosas: liberación hormonal de gastrina al torrente sanguíneo.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">pH Luminal</span>
+              <span class="font-bold text-sky-700 font-mono">$\text{pH} \approx 1.5\text{--}2.0$</span>
+            </div>
+          </div>
+
+          <!-- 4. Intestino Delgado -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-accent/40 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">Principal Sitio Absortivo</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Longitud: $\approx 6\text{--}7\,\text{m}$</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-bacterium text-emerald-600"></i> Intestino Delgado
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Subdividido en Duodeno ($\approx 25\,\text{cm}$ en marco en C), Yeyuno ($\approx 2.5\,\text{m}$) e Íleon ($\approx 3.5\,\text{m}$). Finaliza en la válvula ileocecal para evitar la translocación colónica.
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Fisiología Clave:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>Superficie amplificada $\times 600$ por pliegues circulares, vellosidades y microvellosidades.</li>
+                  <li>Células de Paneth en criptas con defensinas y lisozima antimicrobiana.</li>
+                  <li>Recepción de secreciones duodenales: bilis y jugo pancreático alcalino.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Borde en cepillo</span>
+              <span class="font-bold text-emerald-700 font-mono">$\times 600$ Superficie</span>
+            </div>
+          </div>
+
+          <!-- 5. Intestino Grueso / Colon -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-accent/40 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-slate-100 text-slate-800">Marco Cólico</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Longitud: $\approx 1.5\,\text{m}$</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-shapes text-slate-600"></i> Intestino Grueso (Colon)
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Enmarca la cavidad abdominal. Comprende el ciego con el apéndice cecal, colon ascendente, transverso, descendente y sigmoideo. Exhibe tenias cólicas, haustras y apéndices epiploicos.
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Fisiología Clave:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>Reabsorción masiva de agua ($\approx 1.5\,\text{L/día}$) y electrólitos ($\text{Na}^+, \text{Cl}^-$).</li>
+                  <li>Microbiota comensal sintetizadora de vitamina $\text{K}$ y vitaminas del grupo $\text{B}$.</li>
+                  <li>Compactación y deshidratación progresiva de la materia fecal.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Reabsorción hídrica</span>
+              <span class="font-bold text-slate-700 font-mono">Haustras & Tenias</span>
+            </div>
+          </div>
+
+          <!-- 6. Recto y Conducto Anal -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-accent/40 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-800">Segmento Terminal</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Longitud: $\approx 15\text{--}18\,\text{cm}$</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-lock text-indigo-600"></i> Recto y Conducto Anal
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Porción distal que almacena temporalmente la masa fecal en la ampolla rectal. Culmina en el orificio anal delimitado por la línea pectínea y el aparato esfinteriano.
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Fisiología Clave:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>Esfínter anal interno: músculo liso involuntario regido por reflejo autónomo.</li>
+                  <li>Esfínter anal externo: músculo estriado esquelético bajo control voluntario.</li>
+                  <li>Reflejo rectoesfinteriano de la defecación inducido por distensión ampular.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Continencia & Egestión</span>
+              <span class="font-bold text-indigo-700 font-mono">EAI (liso) / EAE (estriado)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección B: Glándulas Anexas y Accesorias -->
+      <div class="space-y-4 pt-4">
+        <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
+            <h3 class="font-bold text-slate-900 text-base">Glándulas Anexas del Sistema Digestivo</h3>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+            Órganos Accesorios (El quimo no transita por su interior)
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 1. Glándulas Salivales -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-amber-400 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800">Cefálicas Exocrinas</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Volumen: $\approx 1.5\,\text{L/día}$</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-droplet text-amber-600"></i> Glándulas Salivales Mayores
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Tres pares de glándulas exocrinas principales: <strong>Parótidas</strong> (100% serosas, conducto de Stenon), <strong>Submandibulares</strong> (mixtas seromucosas, conducto de Wharton) y <strong>Sublinguales</strong> (mucosas predominantes, conductos de Rivinus).
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Composición & Función:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>$\alpha$-Amilasa salival (ptialina): hidrólisis de enlaces $\alpha(1\to 4)$ de almidón.</li>
+                  <li>Mucina (lubricación protectora) y lisozima + IgA secretora bactericida.</li>
+                  <li>Tampón bicarbonato ($\text{HCO}_3^-$) que mantiene el $\text{pH}$ bucal entre $6.3$ y $6.8$.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Inervación</span>
+              <span class="font-bold text-amber-800 font-mono">NC VII (Cuerda del tímpano) & IX</span>
+            </div>
+          </div>
+
+          <!-- 2. Hígado y Vesícula Biliar -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-amber-400 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-orange-100 text-orange-900">Laboratorio Metabólico</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Masa: $\approx 1.5\,\text{kg}$</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-lungs text-orange-700"></i> Hígado y Vías Biliares
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Órgano parenquimatoso más grande. Recibe circulación dual (75% vena porta con nutrientes y 25% arteria hepática oxigenada). La vesícula biliar almacena y concentra la bilis deshidratándola hasta $10\times$.
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Fisiología Clave:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>Sales biliares: emulsión tensioactiva de triglicéridos en gotas micelares.</li>
+                  <li>Drenaje por colédoco hacia la ampolla de Vater y esfínter de Oddi.</li>
+                  <li>Macrófagos de Kupffer en sinusoides para depuración antigénica portal.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Hormona reguladora</span>
+              <span class="font-bold text-orange-800 font-mono">CCK (Contracción vesicular)</span>
+            </div>
+          </div>
+
+          <!-- 3. Páncreas Exocrino -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-amber-400 hover:shadow-md transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-900">Glándula Mixta</span>
+                <span class="text-xs font-mono font-medium text-slate-500">Volumen: $\approx 1.2\,\text{L/día}$</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fa-solid fa-network-wired text-yellow-600"></i> Páncreas Exocrino
+                </h4>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Glándula acinar serosa retroperitoneal encastrada en el marco duodenal. Su parénquima exocrino (98%) vierte jugo pancreático mediante el conducto de Wirsung (principal) y Santorini (accesorio).
+                </p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs">
+                <span class="font-semibold text-slate-800 block text-[11px] uppercase tracking-wide">Fisiología Clave:</span>
+                <ul class="text-slate-600 space-y-1 text-[11px] list-disc list-inside">
+                  <li>Células ductales: secreción copiosa de $\text{HCO}_3^-$ estimulada por Secretina.</li>
+                  <li>Células acinares: zimógenos (tripsinógeno, quimotripsina, elastasa) por CCK.</li>
+                  <li>Enzimas activas basales: amilasa pancreática y lipasa pancreática con colipasa.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500 font-medium">Neutralización duodenal</span>
+              <span class="font-bold text-yellow-800 font-mono">$\text{pH} \approx 7.6\text{--}8.2$</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+      <section id="content-mod2" class="module-view hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-purple-600 mb-6">
+        <div class="max-w-3xl">
+          <div class="flex items-center space-x-2 text-purple-600 text-xs font-semibold tracking-wider uppercase mb-1">
+            <i class="fa-solid fa-certificate"></i>
+            <span>Módulo 2 • Histología Funcional y Sistema Entérico</span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Histología de la Pared Digestiva y Control Neuroendocrino</h2>
+          <p class="text-slate-600 text-sm mt-2 leading-relaxed">Desde el esófago hasta el conducto anal, el tracto gastrointestinal comparte un patrón arquitectónico fundamental de 4 túnicas concéntricas, reguladas por el Sistema Nervioso Entérico ($approx 100	imes 10^6$ neuronas) y el Sistema Nervioso Autónomo.</p>
+        </div>
+      </div>
+
+      <!-- 4 Layers Interactive Cross-Section Explorer -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Visual Concentric Diagram -->
+        <div class="lg:col-span-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center">
+          <h3 class="font-bold text-slate-800 text-base mb-2 self-start flex items-center">
+            <i class="fa-solid fa-bullseye text-indigo-600 mr-2"></i> Las Cuatro Capas Concéntricas
+          </h3>
+          <p class="text-xs text-slate-500 mb-4 self-start">Haga clic en las capas concéntricas (desde la luz interna hacia el exterior per peritoneal).</p>
+
+          <svg viewBox="0 0 360 360" class="w-full max-w-xs h-auto select-none">
+            <!-- Outermost: Serosa/Adventitia -->
+            <circle onclick="selectHistoLayer('serosa')" cx="180" cy="180" r="160" class="cursor-pointer fill-slate-200 hover:fill-slate-300 stroke-slate-400 stroke-2 transition-all"/>
+            <!-- Muscular Externa (Longitudinal + Circular + Auerbach) -->
+            <circle onclick="selectHistoLayer('muscular')" cx="180" cy="180" r="128" class="cursor-pointer fill-rose-200 hover:fill-rose-300 stroke-rose-400 stroke-2 transition-all"/>
+            <!-- Plexus Auerbach Representation (Dotted ring) -->
+            <circle cx="180" cy="180" r="114" fill="none" stroke="#b91c1c" stroke-width="2" stroke-dasharray="4,4"/>
+            <!-- Submucosa (Meissner) -->
+            <circle onclick="selectHistoLayer('submucosa')" cx="180" cy="180" r="95" class="cursor-pointer fill-amber-100 hover:fill-amber-200 stroke-amber-300 stroke-2 transition-all"/>
+            <!-- Plexus Meissner Representation -->
+            <circle cx="180" cy="180" r="82" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="3,3"/>
+            <!-- Mucosa (Epitelio + Lamina Propia + Muscularis Mucosae) -->
+            <circle onclick="selectHistoLayer('mucosa')" cx="180" cy="180" r="70" class="cursor-pointer fill-pink-200 hover:fill-pink-300 stroke-pink-400 stroke-2 transition-all"/>
+            <!-- Lumen (Luz intestinal) -->
+            <circle cx="180" cy="180" r="38" class="fill-slate-900 stroke-slate-700 stroke-2"/>
+            <text x="180" y="184" text-anchor="middle" class="text-[10px] font-bold fill-white pointer-events-none">LUZ</text>
+
+            <!-- Quick Labels -->
+            <text x="180" y="45" text-anchor="middle" class="text-[9px] font-bold fill-slate-700 pointer-events-none">Serosa / Adventicia</text>
+            <text x="180" y="75" text-anchor="middle" class="text-[9px] font-bold fill-rose-800 pointer-events-none">Muscular Externa (Auerbach)</text>
+            <text x="180" y="102" text-anchor="middle" class="text-[9px] font-bold fill-amber-800 pointer-events-none">Submucosa (Meissner)</text>
+            <text x="180" y="132" text-anchor="middle" class="text-[9px] font-bold fill-pink-900 pointer-events-none">Mucosa</text>
+          </svg>
+
+          <!-- Layer Quick Selector Buttons -->
+          <div class="grid grid-cols-4 gap-2 w-full mt-4 text-center">
+            <button onclick="selectHistoLayer('mucosa')" class="px-2 py-1.5 rounded-lg text-xs font-semibold bg-pink-100 text-pink-800 hover:bg-pink-200 border border-pink-300">Mucosa</button>
+            <button onclick="selectHistoLayer('submucosa')" class="px-2 py-1.5 rounded-lg text-xs font-semibold bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-300">Submucosa</button>
+            <button onclick="selectHistoLayer('muscular')" class="px-2 py-1.5 rounded-lg text-xs font-semibold bg-rose-100 text-rose-800 hover:bg-rose-200 border border-rose-300">Muscular</button>
+            <button onclick="selectHistoLayer('serosa')" class="px-2 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 border border-slate-300">Serosa</button>
+          </div>
+        </div>
+
+        <!-- Layer Histological & Physiological Details -->
+        <div class="lg:col-span-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+          <div id="histo-card" class="space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+              <span id="histo-badge" class="px-2.5 py-0.5 text-xs font-bold rounded bg-pink-100 text-pink-800 uppercase">Capa 1 (Interna)</span>
+              <span id="histo-epith" class="text-xs font-mono font-medium text-slate-600">Epitelio Variable</span>
+            </div>
+
+            <h4 id="histo-name" class="text-xl font-bold  text-slate-900">Túnica Mucosa</h4>
+
+            <p id="histo-desc" class="text-xs text-slate-700 leading-relaxed">
+              En contacto directo con la luz luminal. Consta de 3 subestratos:
+              <strong>1. Epitelio:</strong> Estratificado plano no queratinizado de resistencia mecánica (boca, faringe, esófago, ano) vs. cilíndrico simple secretor/absortivo con microvellosidades (estómago a recto).
+              <strong>2. Lámina Propia:</strong> Tejido conectivo areolar muy vascularizado con nódulos linfoides asociados a mucosas (MALT/GALT).
+              <strong>3. Muscularis Mucosae:</strong> Delgada capa de músculo liso que induce pliegues locales para maximizar el contacto absorbente.
+            </p>
+
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <span class="text-xs font-bold text-slate-800 block mb-1">Inervación y Células Especializadas</span>
+              <p id="histo-spec" class="text-xs text-slate-600 leading-relaxed">
+                Aloja células caliciformes productoras de mucina citoprotectora y células enteroendocrinas detectoras de quimiosensores intraluminales.
+              </p>
+            </div>
+          </div>
+
+          <!-- Dual Nervous Control Panel -->
+          <div class="mt-6 pt-4 border-t border-slate-200">
+            <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-2 flex items-center">
+              <i class="fa-solid fa-network-wired text-emerald-600 mr-2"></i> Inervación Intrínseca vs. Extrínseca
+            </h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <!-- SNE -->
+              <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100">
+                <span class="font-bold text-indigo-900 block mb-1">S. Nervioso Entérico ("2° Cerebro")</span>
+                <p class="text-slate-600 text-[11px] leading-relaxed">
+                  $\approx 10^8$ neuronas capaces de reflejos locales sin el SNC:
+                  <br>• <strong>Plexo de Auerbach (Mientérico):</strong> Motilidad y peristalsis (entre capas muscular circular y longitudinal).
+                  <br>• <strong>Plexo de Meissner (Submucoso):</strong> Regula secreción glandular y flujo sanguíneo capilar.
+                </p>
+              </div>
+
+              <!-- SNA -->
+              <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                <span class="font-bold text-emerald-900 block mb-1">S. Nervioso Autónomo (Reflejos Largos)</span>
+                <p class="text-slate-600 text-[11px] leading-relaxed">
+                  • <strong>Parasimpático (Nervio Vago [NC X]):</strong> <span class="text-emerald-700 font-semibold">Estimulador (+)</span> $\to$ eleva motilidad gástrica y secreción de enzimas/ácidos.
+                  <br>• <strong>Simpático:</strong> <span class="text-rose-700 font-semibold">Inhibidor (-)</span> $\to$ vasoconstricción arteriolar, detención peristáltica, xerostomía (boca seca).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+      <section id="content-mod3" class="module-view hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-rose-600 mb-6">
+        <div class="max-w-3xl">
+          <div class="flex items-center space-x-2 text-rose-600 text-xs font-semibold tracking-wider uppercase mb-1">
+            <i class="fa-solid fa-certificate"></i>
+            <span>Módulo 3 • Fisiología Bucal y Motilidad Esofágica</span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Fisiología Bucal, Secreción Salival y Mecánica de la Deglución</h2>
+          <p class="text-slate-600 text-sm mt-2 leading-relaxed">La digestión inicia con la trituración mecánica y la insalivación química bucal, seguida por la deglución coordinada por el centro bulbar para proteger la vía aérea y propulsar el bolo.</p>
+        </div>
+      </div>
+
+      <!-- Salivary Glands Anatomy & Composition -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Parotids -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-sky-300 transition-all">
+          <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm mb-3">P</div>
+          <h4 class="font-bold text-slate-800 text-sm">Glándulas Parótidas</h4>
+          <span class="text-[11px] text-sky-700 font-semibold block mb-1">Conducto de Stenon (2° molar sup.)</span>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Las de mayor volumen. Secreción <strong>100% serosa</strong>, densa en $\alpha$-amilasa salival (ptialina) para el clivaje inicial de almidón en maltosa e iones bicarbonato.
+          </p>
+        </div>
+
+        <!-- Submandibular -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-amber-300 transition-all">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm mb-3">M</div>
+          <h4 class="font-bold text-slate-800 text-sm">Glándulas Submandibulares</h4>
+          <span class="text-[11px] text-amber-700 font-semibold block mb-1">Conducto de Wharton (frenillo lingual)</span>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Aportan $\approx 70\%$ del volumen salival en reposo. Secreción <strong>mixta seromucosa</strong> que conjuga lubricación mucosa con alta actividad amilolítica.
+          </p>
+        </div>
+
+        <!-- Sublingual -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-pink-300 transition-all">
+          <div class="w-8 h-8 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-sm mb-3">L</div>
+          <h4 class="font-bold text-slate-800 text-sm">Glándulas Sublinguales</h4>
+          <span class="text-[11px] text-pink-700 font-semibold block mb-1">Conductos de Rivinus / Bartholin</span>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Ubicadas bajo el piso de la boca. Secreción predominantemente <strong>mucosa</strong> rica en mucinas glicosiladas para aglutinar e hidratar el bolo alimenticio.
+          </p>
+        </div>
+      </div>
+
+      <!-- Saliva Biochem Banner -->
+      <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-4 text-xs">
+        <div class="flex items-center space-x-2">
+          <span class="font-bold text-slate-700"><i class="fa-solid fa-droplet text-sky-500 mr-1"></i> Bioquímica de la Saliva:</span>
+          <span class="bg-slate-100 px-2.5 py-1 rounded-md text-slate-700">Producción: $1000\text{--}1500\,\text{mL/día}$</span>
+          <span class="bg-slate-100 px-2.5 py-1 rounded-md text-slate-700">$\text{pH} \approx 6.3\text{--}6.8$</span>
+          <span class="bg-slate-100 px-2.5 py-1 rounded-md text-slate-700">$99.5\%\,\text{H}_2\text{O}$</span>
+        </div>
+        <div class="text-slate-600">
+          Componentes activos: <span class="font-semibold text-slate-800">Ptialina, Lisozima, $\text{IgA}$ secretora, Lipasa lingual</span> (activa a $\text{pH}$ gástrico ácido).
+        </div>
+      </div>
+
+      <!-- Interactive 3-Phase Deglutition Simulator -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-2">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base flex items-center">
+              <i class="fa-solid fa-play-circle text-rose-600 mr-2"></i> Simulador Dinámico de la Deglución
+            </h3>
+            <p class="text-xs text-slate-500">Avance a través de las 3 etapas para observar la protección traqueal y la onda peristáltica.</p>
+          </div>
+          <!-- Stage Selector Controls -->
+          <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200">
+            <button onclick="setDeglutitionStage(1)" id="btn-deg-1" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-rose-600 text-white shadow-sm transition-all">
+              1. Oral (Voluntaria)
+            </button>
+            <button onclick="setDeglutitionStage(2)" id="btn-deg-2" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:text-slate-900 transition-all">
+              2. Faríngea (Refleja)
+            </button>
+            <button onclick="setDeglutitionStage(3)" id="btn-deg-3" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:text-slate-900 transition-all">
+              3. Esofágica (Peristaltismo)
+            </button>
+          </div>
+        </div>
+
+        <!-- Animation Canvas / SVG -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-7 bg-white p-4 rounded-xl flex items-center justify-center relative overflow-hidden min-h-[300px]">
+            <svg id="deg-svg" viewBox="0 0 450 320" class="w-full max-w-md h-auto">
+              <!-- Head Outline -->
+              <path d="M 50,220 C 50,80 140,30 260,30 C 350,30 380,100 380,170 C 380,240 330,300 290,300" fill="none" stroke="#334155" stroke-width="2"/>
+              
+              <!-- Hard & Soft Palate -->
+              <path d="M 120,110 L 210,110" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round"/>
+              <path id="soft-palate" d="M 210,110 Q 230,120 235,140" fill="none" stroke="#f43f5e" stroke-width="6" stroke-linecap="round" class="transition-all duration-500"/>
+              <text x="140" y="100" class="text-[10px] fill-slate-400">Paladar duro</text>
+              <text x="245" y="125" class="text-[10px] fill-rose-400 font-semibold">Paladar blando (Úvula)</text>
+
+              <!-- Tongue -->
+              <path id="tongue-shape" d="M 120,170 C 140,140 190,140 220,165 C 220,190 140,195 120,170 Z" fill="#fda4af" stroke="#f43f5e" stroke-width="2" class="transition-all duration-500"/>
+              <text x="145" y="175" class="text-[10px] font-bold fill-rose-950 pointer-events-none">Lengua</text>
+
+              <!-- Trachea / Airway (Anterior) -->
+              <path d="M 230,220 L 230,300" stroke="#38bdf8" stroke-width="12" stroke-linecap="round"/>
+              <!-- Cartilages of Trachea -->
+              <line x1="224" y1="240" x2="236" y2="240" stroke="#0284c7" stroke-width="2"/>
+              <line x1="224" y1="260" x2="236" y2="260" stroke="#0284c7" stroke-width="2"/>
+              <line x1="224" y1="280" x2="236" y2="280" stroke="#0284c7" stroke-width="2"/>
+              <text x="175" y="270" class="text-[10px] fill-sky-400 font-bold">Tráquea (Vía aérea)</text>
+
+              <!-- Epiglottis -->
+              <line id="epiglottis" x1="230" y1="205" x2="245" y2="180" stroke="#10b981" stroke-width="6" stroke-linecap="round" class="transition-all duration-500 origin-[230px_205px]"/>
+              <text x="250" y="195" class="text-[10px] font-bold fill-emerald-400">Epiglotis</text>
+
+              <!-- Esophagus (Posterior) -->
+              <path d="M 275,210 L 275,300" stroke="#cbd5e1" stroke-width="14" stroke-linecap="round"/>
+              <text x="295" y="260" class="text-[10px] fill-slate-300 font-semibold">Esófago</text>
+
+              <!-- Food Bolus (Animates across positions) -->
+              <circle id="food-bolus" cx="170" cy="135" r="14" fill="#d97706" stroke="#fbbf24" stroke-width="2" class="transition-all duration-700 ease-in-out"/>
+            </svg>
+          </div>
+
+          <!-- Explanation of Current Phase -->
+          <div class="lg:col-span-5 space-y-3">
+            <div id="deg-phase-title" class="text-base font-bold text-slate-800">
+              Fase 1: Fase Oral (Voluntaria)
+            </div>
+            <p id="deg-phase-desc" class="text-xs text-slate-600 leading-relaxed">
+              El bolo alimenticio masticado e insalivado es compactado contra el paladar duro por la contracción voluntaria del músculo geniogloso e intrínsecos de la lengua, desplazándolo hacia el istmo de las fauces y la orofaringe.
+            </p>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+              <span class="font-bold text-slate-700 block mb-1">Mecanismo Neuromuscular</span>
+              <p id="deg-phase-physio" class="text-[11px] text-slate-600">
+                Inervado por el nervio hipogloso ($\text{NC XII}$). La estimulación de los pilares amigdalinos desencadena de forma irreversible el reflejo de la fase faríngea.
+              </p>
+            </div>
+            <!-- Clinical Vignette: GERD / Incompetent LES -->
+            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200 text-xs">
+              <span class="font-bold text-rose-800 block mb-0.5"><i class="fa-solid fa-notes-medical mr-1"></i> Correlación Clínica: ERGE</span>
+              <p class="text-[11px] text-rose-900 leading-relaxed">
+                La incompetencia tónica del esfínter esofágico inferior ($\text{EEI}$) permite el reflujo del ácido gástrico ($\text{pH} \approx 2$), lesionando el epitelio estratificado plano esofágico (esofagitis por reflujo y eventual metaplasia de Barrett).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+      <section id="content-mod4" class="module-view hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-sky-600 mb-6">
+        <div class="max-w-3xl">
+          <div class="flex items-center space-x-2 text-sky-600 text-xs font-semibold tracking-wider uppercase mb-1">
+            <i class="fa-solid fa-certificate"></i>
+            <span>Módulo 4 • Fisiología y Secreción Gástrica</span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Fisiología Gástrica: Células Parietales, HCl y Zimógenos</h2>
+          <p class="text-slate-600 text-sm mt-2 leading-relaxed">El estómago ejerce molienda tridimensional y esterilización del bolo mediante la secreción de ácido clorhídrico ($	ext{pH} approx 2$) y la activación del pepsinógeno en pepsina.</p>
+        </div>
+      </div>
+
+      <!-- Cellular Populations of Gastric Glands -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Parietal Cell -->
+        <div class="bg-white p-4 rounded-2xl border-2 border-sky-400 shadow-sm relative overflow-hidden">
+          <div class="absolute top-2 right-2 px-2 py-0.5 rounded text-[10px] font-bold bg-sky-100 text-sky-800">Oxíntica</div>
+          <div class="w-9 h-9 rounded-xl bg-sky-500 text-white flex items-center justify-center font-bold text-base mb-3 shadow">
+            $\text{H}^+$
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">Célula Parietal</h4>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Secreta ácido clorhídrico ($\text{HCl}$) a $\text{pH} \approx 2$ y el <strong>Factor Intrínseco</strong> (glicoproteína imprescindible para absorber vitamina $\text{B}_{12}$ en el íleon terminal).
+          </p>
+        </div>
+
+        <!-- Chief Cell -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-indigo-500 text-white flex items-center justify-center font-bold text-base mb-3 shadow">
+            <i class="fa-solid fa-scissors"></i>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">Célula Principal (Cimógena)</h4>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Sintetiza <strong>pepsinógeno</strong> (proenzima inactiva) y lipasa gástrica. Se ubica en el fondo de las criptas para resguardarse de la acidez luminal activa.
+          </p>
+        </div>
+
+        <!-- Mucous Neck Cell -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-pink-500 text-white flex items-center justify-center font-bold text-base mb-3 shadow">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">Célula Mucosa del Cuello</h4>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Genera un gel espeso de mucina y bicarbonato ($\text{HCO}_3^-$) que reviste el epitelio gástrico, manteniendo un microclima de $\text{pH} \approx 7.0$ contra la autodigestión.
+          </p>
+        </div>
+
+        <!-- G Cell -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold text-base mb-3 shadow">
+            $\text{G}$
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm">Célula G Enteroendocrina</h4>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Localizada en el antro pilórico; libera la hormona <strong>gastrina</strong> al torrente sanguíneo ante la distensión mecánica y la presencia de péptidos luminales.
+          </p>
+        </div>
+      </div>
+
+      <!-- Biochemical Lab: Parietal Cell Secretion Simulator -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-2">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base flex items-center">
+              <i class="fa-solid fa-microscope text-sky-600 mr-2"></i> Modelo Bioquímico: Bomba de Protones y Secreción de $\text{HCl}$
+            </h3>
+            <p class="text-xs text-slate-500">Active los receptores neuroendocrinos basolaterales para observar la extrusión de protones hacia la luz gástrica.</p>
+          </div>
+          <!-- Receptor Stimulators -->
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button onclick="toggleParietalStim('gastrin')" id="btn-stim-gastrin" class="px-3 py-1.5 rounded-lg border border-slate-300 font-semibold bg-slate-100 text-slate-700">
+              + Gastrina ($\text{CCK}_B$)
+            </button>
+            <button onclick="toggleParietalStim('ach')" id="btn-stim-ach" class="px-3 py-1.5 rounded-lg border border-slate-300 font-semibold bg-slate-100 text-slate-700">
+              + Acetilcolina ($M_3$ / Vago)
+            </button>
+            <button onclick="toggleParietalStim('histamine')" id="btn-stim-histamine" class="px-3 py-1.5 rounded-lg border border-slate-300 font-semibold bg-slate-100 text-slate-700">
+              + Histamina ($H_2$ / Células ECL)
+            </button>
+          </div>
+        </div>
+
+        <!-- Parietal Diagram & Chemical Equations -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+              <span class="text-xs uppercase font-bold tracking-wider text-sky-700">
+                <i class="fa-solid fa-atom mr-1.5"></i> Célula Parietal (Oxíntica) • Dinámica de Membrana
+              </span>
+              <span class="text-[11px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                Glándulas Fúndicas
+              </span>
+            </div>
+            
+            <!-- Carbonic Anhydrase Equation (Clean Daylight Box) -->
+            <div class="bg-sky-50/70 p-4 rounded-xl border border-sky-200 space-y-2">
+              <span class="text-xs text-slate-700 block font-semibold flex items-center gap-1.5">
+                <i class="fa-solid fa-vial text-sky-600"></i> Reacción citosólica catalizada por la Anhidrasa Carbónica (AC):
+              </span>
+              <div class="text-sm font-mono text-center text-slate-900 py-2.5 bg-white rounded-lg border border-sky-200 shadow-xs">
+                $$\text{CO}_2 + \text{H}_2\text{O} \xrightleftharpoons{\text{AC}} \text{H}_2\text{CO}_3 \xrightleftharpoons{} \text{H}^+ + \text{HCO}_3^-$$
+              </div>
+            </div>
+
+            <!-- Membrane Pumps Representation (Clean 2-Column Cards) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Apical Membrane (faces stomach lumen) -->
+              <div class="p-4 bg-sky-50/50 border border-sky-200 rounded-xl flex flex-col justify-between shadow-xs">
+                <div>
+                  <span class="text-xs font-bold text-sky-800 flex items-center gap-1 mb-1.5">
+                    <i class="fa-solid fa-arrow-up text-sky-600"></i> Membrana Apical &rarr; Luz Gástrica
+                  </span>
+                  <p class="text-xs text-slate-700 leading-relaxed space-y-1">
+                    • <strong>Bomba de Protones ($\text{H}^+/\text{K}^+ \text{ ATPasa}$):</strong> Bombea activamente $\text{H}^+$ hacia la luz intercambiándolo por $\text{K}^+$ extracelular contra gradiente ($10^6:1$).
+                    <br>• <strong>Canal de Cloruro ($\text{Cl}^-$):</strong> Salida facilitada de $\text{Cl}^-$ que se combina con $\text{H}^+$ para conformar $\text{HCl}$.
+                  </p>
+                </div>
+                <div class="mt-3 p-2 text-center text-xs font-bold text-amber-900 bg-amber-100 rounded-lg border border-amber-300 font-mono">
+                  $$\text{Luz gástrica: } \text{pH} \approx 1.5\text{--}2.0$$
+                </div>
+              </div>
+
+              <!-- Basolateral Membrane (faces interstitial fluid / capillaries) -->
+              <div class="p-4 bg-emerald-50/40 border border-emerald-200 rounded-xl flex flex-col justify-between shadow-xs">
+                <div>
+                  <span class="text-xs font-bold text-emerald-800 flex items-center gap-1 mb-1.5">
+                    <i class="fa-solid fa-arrow-down text-emerald-600"></i> Membrana Basolateral &rarr; Capilar
+                  </span>
+                  <p class="text-xs text-slate-700 leading-relaxed">
+                    • <strong>Intercambiador $\text{HCO}_3^- / \text{Cl}^-$:</strong> Expulsa el bicarbonato generado hacia el torrente sanguíneo venoso gástrico, originando la <strong class="text-emerald-800">"Marea Alcalina Posprandial"</strong> e ingresando $\text{Cl}^-$ citosólico para la secreción.
+                  </p>
+                </div>
+                <div class="mt-3 p-2 text-center text-xs font-bold text-emerald-900 bg-emerald-100 rounded-lg border border-emerald-300 font-mono">
+                  Retorno venoso: $\text{HCO}_3^- \uparrow$ (Alcalino)
+                </div>
+              </div>
+            </div>
+
+            <!-- Pepsinogen Activation Callout (Clean Coral / Rose Daylight Box) -->
+            <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs space-y-2 shadow-xs">
+              <span class="font-bold text-rose-800 flex items-center gap-1.5 text-xs">
+                <i class="fa-solid fa-bolt text-rose-600"></i> Activación Enzimática en Cascada (pH-dependiente):
+              </span>
+              <div class="text-center font-mono text-xs text-rose-950 py-2 bg-white rounded-lg border border-rose-200 shadow-xs">
+                $$\text{Pepsinógeno (inactivo)} \xrightarrow{\text{HCl } (\text{pH} \approx 2)} \text{Pepsina (endopeptidasa activa)}$$
+              </div>
+              <p class="text-[11px] text-slate-700 leading-relaxed">
+                La pepsina activa ejerce un bucle de <strong>autocatálisis positiva</strong> activando más moléculas de pepsinógeno e hidrolizando enlaces peptídicos de proteínas en oligopéptidos.
+              </p>
+            </div>
+          </div>
+
+          <!-- Secretion Status Monitor -->
+          <div class="lg:col-span-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+            <h4 class="font-bold text-slate-900 text-sm">Monitor de Secreción Gástrica</h4>
+            
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-600">Tasa Secretora de $\text{H}^+$:</span>
+                <span id="rate-display" class="font-bold text-sky-600">Basal (15%)</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                <div id="rate-bar" class="bg-sky-600 h-full w-[15%] transition-all duration-500"></div>
+              </div>
+            </div>
+
+            <!-- 3 Phases of Secretion -->
+            <div class="space-y-2 pt-2 border-t border-slate-200 text-xs">
+              <span class="font-bold text-slate-800 block">Fases de Secreción Gástrica:</span>
+              <div class="p-2 rounded-lg bg-white border border-slate-200">
+                <strong class="text-slate-800">1. Cefálica ($30\%$):</strong> Vista, olfato o pensamiento de comida vía Vago ($\text{NC X}$).
+              </div>
+              <div class="p-2 rounded-lg bg-white border border-slate-200">
+                <strong class="text-slate-800">2. Gástrica ($60\%$):</strong> Distensión parietal y presencia de aminoácidos; bucles vagovagales y gastrina.
+              </div>
+              <div class="p-2 rounded-lg bg-white border border-slate-200">
+                <strong class="text-slate-800">3. Intestinal ($10\%$):</strong> Inicialmente estimuladora; luego inhibitoria (reflejo enterogástrico, secretina y $\text{CCK}$).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+      <section id="content-mod5" class="module-view hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-amber-600 mb-6">
+        <div class="max-w-3xl">
+          <div class="flex items-center space-x-2 text-amber-600 text-xs font-semibold tracking-wider uppercase mb-1">
+            <i class="fa-solid fa-certificate"></i>
+            <span>Módulo 5 • Glándulas Accesorias y Regulación Hormonal</span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Eje Hepato-Bilio-Pancreático y Regulación Neuroendocrina</h2>
+          <p class="text-slate-600 text-sm mt-2 leading-relaxed">El hígado y el páncreas exocrino aportan bilis emulsificante y jugo alcalino rico en bicarbonato y enzimas hidrolíticas para la digestión en el duodeno.</p>
+        </div>
+      </div>
+
+      <!-- Liver Dual Blood Supply & Sinusoids Architecture -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Hepatic Microarchitecture Card -->
+        <div class="lg:col-span-6 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b pb-2">
+            <h3 class="font-bold text-slate-900 text-base flex items-center">
+              <i class="fa-solid fa-diagram-project text-amber-600 mr-2"></i> Circulación Dual y Sinusoides Hepáticos
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-100 text-amber-900">Triada Portal</span>
+          </div>
+
+          <p class="text-xs text-slate-700 leading-relaxed">
+            El lobulillo hepático clásico recibe aferencias de dos sistemas vasculares que se mezclan íntimamente dentro de los <strong>sinusoides fenestrados</strong>:
+          </p>
+
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200">
+              <span class="font-bold text-rose-800 block mb-0.5"><i class="fa-solid fa-heart-pulse mr-1"></i> Arteria Hepática ($25\%$)</span>
+              <p class="text-slate-600 text-[11px]">Sangre oxigenada $\text{O}_2$ de alta presión para la viabilidad metabólica de los hepatocitos.</p>
+            </div>
+            <div class="p-3 bg-sky-50 rounded-xl border border-sky-200">
+              <span class="font-bold text-sky-800 block mb-0.5"><i class="fa-solid fa-vial mr-1"></i> Vena Porta ($75\%$)</span>
+              <p class="text-slate-600 text-[11px]">Sangre venosa hipooxigenada rica en nutrientes hidrosolubles absorbidos en intestino (sin quilomicrones).</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
+            <div class="font-bold text-slate-800 flex items-center justify-between">
+              <span>Células de Kupffer (Macrófagos Sinusoidales)</span>
+              <i class="fa-solid fa-shield-virus text-emerald-600"></i>
+            </div>
+            <p class="text-slate-600 text-[11px]">
+              Fagocitan eritrocitos senescentes, complejos inmunes y bacterias que ingresan por el torrente portal antes de que la sangre drene hacia la vena central $\to$ venas suprahepáticas $\to$ VCI.
+            </p>
+          </div>
+
+          <!-- Non-digestive metabolic liver roles -->
+          <div class="border-t pt-3 border-slate-100">
+            <span class="text-xs font-bold text-slate-800 block mb-1">Eje Metabólico Extradigestivo del Hepatocito:</span>
+            <div class="flex flex-wrap gap-1.5 text-[10px]">
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Glucogenogénesis / Lisis</span>
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Gluconeogénesis</span>
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Ciclo de Urea ($\text{NH}_3 \to \text{Urea}$)</span>
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Síntesis Albúmina & Factores Coagulación</span>
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Reserva $\text{Fe}^{2+}$, Vit. $\text{A, D, E, K, B}_{12}$</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Biliary Tree & Hormonal Switch Simulator -->
+        <div class="lg:col-span-6 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b pb-2 mb-4">
+              <h3 class="font-bold text-slate-900 text-base flex items-center">
+                <i class="fa-solid fa-circle-nodes text-emerald-600 mr-2"></i> Árbol Biliar y Esfínter de Oddi
+              </h3>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-900">Control Hormonal</span>
+            </div>
+
+            <!-- Biliary Path Diagram -->
+            <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 mb-4 text-xs">
+              <div class="font-bold text-amber-900 mb-2">Trayecto Vectorial de la Bilis:</div>
+              <div class="flex items-center justify-between text-[11px] text-slate-700 font-mono overflow-x-auto py-1">
+                <span class="bg-white px-2 py-1 rounded shadow-sm">Canalículos</span>
+                <span>$\to$</span>
+                <span class="bg-white px-2 py-1 rounded shadow-sm">Hepáticos D e I</span>
+                <span>$\to$</span>
+                <span class="bg-white px-2 py-1 rounded shadow-sm">Conducto Cístico $\leftrightarrow$ Vesícula</span>
+                <span>$\to$</span>
+                <span class="bg-white px-2 py-1 rounded shadow-sm">Colédoco + Wirsung</span>
+              </div>
+              <p class="text-[11px] text-amber-900 mt-2">
+                Ambos desembocan en la <strong>Ampolla hepatopancreática (de Vater)</strong> en la 2° porción duodenal, gobernada por el <strong>Esfínter de Oddi</strong>.
+              </p>
+            </div>
+
+            <!-- Interactive Hormonal Trigger -->
+            <div class="space-y-3">
+              <span class="text-xs font-bold text-slate-800 block">Estímulo Duodenal Activo:</span>
+              <div class="grid grid-cols-2 gap-3">
+                <button onclick="triggerHormone('cck')" id="btn-cck" class="p-3 rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold text-xs text-left shadow-sm transition-all">
+                  <div class="flex items-center justify-between">
+                    <span>Lípidos / Péptidos</span>
+                    <i class="fa-solid fa-check-circle text-emerald-600"></i>
+                  </div>
+                  <span class="text-[10px] block mt-1 text-emerald-700">Libera Colecistoquinina ($\text{CCK}$)</span>
+                </button>
+                <button onclick="triggerHormone('secretin')" id="btn-secretin" class="p-3 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold text-xs text-left shadow-sm hover:border-sky-300 transition-all">
+                  <div class="flex items-center justify-between">
+                    <span>Quimo Ácido ($\text{HCl}$)</span>
+                    <i class="fa-regular fa-circle text-slate-600"></i>
+                  </div>
+                  <span class="text-[10px] block mt-1 text-slate-500">Libera Secretina ($\text{HCO}_3^-$)</span>
+                </button>
+              </div>
+
+              <!-- Real-time Response Box -->
+              <div id="hormone-effect" class="p-3 bg-white text-white rounded-xl text-xs space-y-1">
+                <span class="text-emerald-400 font-bold block">Respuesta a Colecistoquinina ($\text{CCK}$):</span>
+                <p class="text-slate-700 text-[11px] leading-relaxed">
+                  1. Contracción vigorosa del músculo liso de la pared vesicular.
+                  <br>2. Relajación simultánea del <strong>Esfínter de Oddi</strong>.
+                  <br>3. Secreción acinar pancreática rica en zimógenos (tripsinógeno, lipasa, amilasa).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enterohepatic circulation footnote & Bilirubin -->
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-600">
+            <span><strong>Circulación Enterohepática:</strong> $95\%$ de sales biliares se reabsorben en íleon terminal.</span>
+            <span class="font-bold text-amber-700">Bilis: $\text{pH} \approx 7.6\text{--}8.6$</span>
+          </div>
+        </div>
+      </div>
+    </section>
+      <section id="content-mod6" class="module-view hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-accent mb-6">
+        <div class="max-w-3xl">
+          <div class="flex items-center space-x-2 text-accent text-xs font-semibold tracking-wider uppercase mb-1">
+            <i class="fa-solid fa-certificate"></i>
+            <span>Módulo 6 • Bioquímica y Transporte Epitelial</span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Intestino Delgado y Mecanismos Bioquímicos de Absorción</h2>
+          <p class="text-slate-600 text-sm mt-2 leading-relaxed">El enterocito absorbe monosacáridos, aminoácidos y lípidos a través de un borde en cepillo con una superficie aumentada 600 veces mediante pliegues, vellosidades y microvellosidades.</p>
+        </div>
+      </div>
+
+      <!-- Surface Multiplication Factor (x600) Card -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg">
+            $\times 3$
+          </div>
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Pliegues Circulares</h4>
+            <span class="text-[11px] text-slate-500">Válvulas de Kerckring</span>
+            <p class="text-[11px] text-slate-600 mt-0.5">Repliegues permanentes de submucosa y mucosa.</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center font-bold text-lg">
+            $\times 10$
+          </div>
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Vellosidades Intestinales</h4>
+            <span class="text-[11px] text-slate-500">Digitiformes ($\approx 1\,\text{mm}$)</span>
+            <p class="text-[11px] text-slate-600 mt-0.5">Alojan red capilar fenestrada y un vaso quilífero central.</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold text-lg">
+            $\times 20$
+          </div>
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Microvellosidades</h4>
+            <span class="text-[11px] text-slate-500">Borde en Cepillo Apical</span>
+            <p class="text-[11px] text-slate-600 mt-0.5">Expansión total a $\approx 200\text{--}300\,\text{m}^2$ de superficie absortiva.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Molecular Membrane Transport Simulator -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-2">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base flex items-center">
+              <i class="fa-solid fa-microscope text-emerald-600 mr-2"></i> Microscopio Molecular del Enterocito
+            </h3>
+            <p class="text-xs text-slate-500">Seleccione el nutriente para observar transportadores de membrana y vías de eflujo.</p>
+          </div>
+          <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200">
+            <button onclick="setNutrient('carbs')" id="btn-nut-carbs" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-sm transition-all">
+              Glúcidos
+            </button>
+            <button onclick="setNutrient('proteins')" id="btn-nut-proteins" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:text-slate-900 transition-all">
+              Proteínas
+            </button>
+            <button onclick="setNutrient('lipids')" id="btn-nut-lipids" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:text-slate-900 transition-all">
+              Lípidos
+            </button>
+          </div>
+        </div>
+
+        <!-- Enterocyte Membrane SVG Visualization -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-7 bg-white p-4 rounded-xl flex items-center justify-center relative overflow-hidden">
+            <svg id="enterocyte-svg" viewBox="0 0 460 300" class="w-full max-w-md h-auto">
+              <!-- Luminal Brush Border Top -->
+              <rect x="0" y="0" width="460" height="40" fill="#064e3b"/>
+              <text x="230" y="25" text-anchor="middle" class="text-[11px] font-bold fill-emerald-200">LUZ INTESTINAL (Microvellosidades)</text>
+
+              <!-- Brush Border Microvilli representation -->
+              <path d="M 10,40 L 10,65 Q 15,70 20,65 L 20,40 M 30,40 L 30,65 Q 35,70 40,65 L 40,40 M 50,40 L 50,65 Q 55,70 60,65 L 60,40 M 70,40 L 70,65 Q 75,70 80,65 L 80,40 M 90,40 L 90,65 Q 95,70 100,65 L 100,40 M 110,40 L 110,65 Q 115,70 120,65 L 120,40 M 130,40 L 130,65 Q 135,70 140,65 L 140,40 M 150,40 L 150,65 Q 155,70 160,65 L 160,40 M 170,40 L 170,65 Q 175,70 180,65 L 180,40 M 190,40 L 190,65 Q 195,70 200,65 L 200,40 M 210,40 L 210,65 Q 215,70 220,65 L 220,40 M 230,40 L 230,65 Q 235,70 240,65 L 240,40 M 250,40 L 250,65 Q 255,70 260,65 L 260,40 M 270,40 L 270,65 Q 275,70 280,65 L 280,40 M 290,40 L 290,65 Q 295,70 300,65 L 300,40 M 310,40 L 310,65 Q 315,70 320,65 L 320,40 M 330,40 L 330,65 Q 335,70 340,65 L 340,40 M 350,40 L 350,65 Q 355,70 360,65 L 360,40 M 370,40 L 370,65 Q 375,70 380,65 L 380,40 M 390,40 L 390,65 Q 395,70 400,65 L 400,40 M 410,40 L 410,65 Q 415,70 420,65 L 420,40 M 430,40 L 430,65 Q 435,70 440,65 L 440,40" stroke="#10b981" stroke-width="4" fill="none"/>
+
+              <!-- Enterocyte Cytosol -->
+              <rect x="20" y="70" width="420" height="150" rx="10" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+              <text x="230" y="145" text-anchor="middle" class="text-[12px] font-bold fill-slate-500">CITOSOL DEL ENTEROCITO</text>
+
+              <!-- Dynamic Transporters Displayed in Cytosol & Membranes -->
+              <!-- Apical Transporter 1 -->
+              <rect id="trans-apical-1" x="90" y="60" width="45" height="20" rx="4" fill="#0284c7" stroke="#38bdf8"/>
+              <text id="txt-apical-1" x="112" y="74" text-anchor="middle" class="text-[9px] font-bold fill-white">SGLT-1</text>
+
+              <!-- Apical Transporter 2 -->
+              <rect id="trans-apical-2" x="310" y="60" width="45" height="20" rx="4" fill="#d97706" stroke="#fbbf24"/>
+              <text id="txt-apical-2" x="332" y="74" text-anchor="middle" class="text-[9px] font-bold fill-white">GLUT-5</text>
+
+              <!-- Basolateral Sodium-Potassium Pump -->
+              <circle cx="90" cy="220" r="15" fill="#e11d48" stroke="#f43f5e"/>
+              <text x="90" y="223" text-anchor="middle" class="text-[8px] font-bold fill-white">Na/K</text>
+              <text x="90" y="245" text-anchor="middle" class="text-[8px] fill-rose-400 font-mono">ATPasa</text>
+
+              <!-- Basolateral Efflux Transporter -->
+              <rect id="trans-baso" x="290" y="210" width="60" height="22" rx="4" fill="#059669" stroke="#34d399"/>
+              <text id="txt-baso" x="320" y="225" text-anchor="middle" class="text-[10px] font-bold fill-white">GLUT-2</text>
+
+              <!-- Basolateral Interstitial Space / Capillaries vs. Lacteal -->
+              <rect x="0" y="250" width="230" height="50" fill="#1e293b"/>
+              <text x="115" y="278" text-anchor="middle" class="text-[10px] font-bold fill-sky-400">Capilar Portal (Vía Venosa)</text>
+
+              <rect x="230" y="250" width="230" height="50" fill="#334155"/>
+              <text x="345" y="278" text-anchor="middle" class="text-[10px] font-bold fill-amber-300">Vaso Quilífero (Vía Linfática)</text>
+            </svg>
+          </div>
+
+          <!-- Molecular Mechanism Breakdown -->
+          <div class="lg:col-span-5 space-y-3">
+            <h4 id="nut-title" class="text-base font-bold text-slate-800">
+              Absorción de Glúcidos
+            </h4>
+            
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
+              <div>
+                <span class="font-bold text-slate-700 block text-[11px] uppercase tracking-wide">Polo Apical (Luz $\to$ Citosol):</span>
+                <p id="nut-apical" class="text-slate-600 leading-relaxed text-[11px]">
+                  • <strong>Glucosa y Galactosa:</strong> Cotransporte activo secundario con $\text{Na}^+$ mediado por <span class="font-mono font-bold text-sky-700">SGLT-1</span> (impulsado por el gradiente creado por la $\text{Na}^+/\text{K}^+ \text{ ATPasa}$).
+                  <br>• <strong>Fructosa:</strong> Difusión facilitada independiente de energía por <span class="font-mono font-bold text-amber-700">GLUT-5</span>.
+                </p>
+              </div>
+
+              <div class="border-t pt-2 border-slate-200">
+                <span class="font-bold text-slate-700 block text-[11px] uppercase tracking-wide">Polo Basolateral (Citosol $\to$ Capilares):</span>
+                <p id="nut-baso" class="text-slate-600 leading-relaxed text-[11px]">
+                  • Todos los monosacáridos egresan por difusión facilitada universal a través del transportador <span class="font-mono font-bold text-emerald-700">GLUT-2</span> hacia los capilares portales.
+                </p>
+              </div>
+            </div>
+
+            <!-- Clinical Pathology Correlation -->
+            <div id="nut-clinical" class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs">
+              <span class="font-bold text-amber-900 block mb-0.5"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Intolerancia a la Lactosa</span>
+              <p class="text-[11px] text-amber-800 leading-relaxed">
+                El déficit de la disacaridasa <em>lactasa</em> impide romper la lactosa en $\text{glucosa} + \text{galactosa}$. La lactosa no absorbida retiene agua osmóticamente y es fermentada por bacterias colónicas, generando diarrea acuosa, gas ($\text{H}_2, \text{CH}_4$) y meteorismo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+
+  </main>
+
+  <!-- Pie de Página Institucional -->
+  <footer class="bg-white border-t border-gray-200 py-3 text-center text-xs text-gray-500 font-medium">
+    Desarrollado por vesalio - Todos los derechos reservados
+  </footer>
+
+  <!-- Modal: Vademécum Teórico Gastroenterológico -->
+  <div id="modal-formulas" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white max-w-3xl w-full rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-accent p-4 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-book-bookmark text-xl"></i>
+          <h3 class="font-bold text-base">Vademécum Teórico: Bioquímica y Fisiología Digestiva</h3>
+        </div>
+        <button onclick="closeFormulasModal()" class="text-white hover:text-gray-200 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 overflow-y-auto space-y-6 text-xs md:text-sm text-gray-700 custom-scroll leading-relaxed">
+        
+        <!-- 1. Gradientes de pH y Secreciones -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-flask"></i> 1. Gradientes de pH a lo Largo del Tubo Digestivo
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-slate-800">Boca / Saliva:</strong><br>
+              $$\text{pH} \approx 6.3\text{--}6.8$$<br>
+              <span class="text-gray-500 font-sans text-[11px]">Óptimo para la amilasa salival (ptialina).</span>
+            </div>
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-slate-800">Estómago (Luz):</strong><br>
+              $$\text{pH} \approx 1.5\text{--}2.0$$<br>
+              <span class="text-gray-500 font-sans text-[11px]">Activación de pepsina y desnaturalización de proteínas.</span>
+            </div>
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-slate-800">Duodeno / Bilis:</strong><br>
+              $$\text{pH} \approx 7.6\text{--}8.6$$<br>
+              <span class="text-gray-500 font-sans text-[11px]">Rico en $\text{HCO}_3^-$ pancreático y biliar.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Cinética Enzimática y Activación de Zimógenos -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-dna"></i> 2. Activación de Zimógenos Digestivos
+          </h4>
+          <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-2 text-xs">
+            <p><strong>Gástrico:</strong> $\text{Pepsinógeno (inactivo)} \xrightarrow{\text{HCl } (\text{pH} \approx 2)} \text{Pepsina activa (endopeptidasa)}$.</p>
+            <p><strong>Pancreático:</strong> $\text{Tripsinógeno} \xrightarrow{\text{Enteroquinasa duodenal}} \text{Tripsina activa} \xrightarrow{\text{Autocatálisis}} \text{Quimotripsina / Elastasa}$.</p>
+          </div>
+        </div>
+
+        <!-- 3. Transportadores de Membrana del Enterocito -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-atom"></i> 3. Cotransportadores y Canales de Absorción
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-slate-800">Monosacáridos:</strong>
+              <ul class="list-disc list-inside mt-1 space-y-0.5 text-gray-600">
+                <li>$\text{SGLT-1}$ (Apical): Cotransporte activo secundario $\text{Na}^+$-Glucosa / Galactosa.</li>
+                <li>$\text{GLUT-5}$ (Apical): Difusión facilitada de Fructosa.</li>
+                <li>$\text{GLUT-2}$ (Basolateral): Difusión facilitada universal hacia el sistema porta.</li>
+              </ul>
+            </div>
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-slate-800">Péptidos y Lípidos:</strong>
+              <ul class="list-disc list-inside mt-1 space-y-0.5 text-gray-600">
+                <li>$\text{PepT-1}$ (Apical): Cotransporte con $\text{H}^+$ de di y tripéptidos.</li>
+                <li>Micelas mixtas $\to$ Difusión apical $\to$ Reesterificación en REL $\to$ <strong>Quilomicrones</strong> al quilífero central.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="bg-gray-50 p-4 border-t border-gray-200 flex justify-end">
+        <button onclick="closeFormulasModal()" class="px-5 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover text-xs transition shadow-sm">
+          Cerrar Vademécum
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Guía de Uso del Simulador -->
+  <div id="modal-tutorial" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white max-w-4xl w-full rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-accent p-4 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-circle-question text-xl"></i>
+          <h3 class="font-bold text-base">Guía Didáctica Integral | Fisiología y Bioquímica Digestiva UCCuyo</h3>
+        </div>
+        <button onclick="closeTutorial()" class="text-white hover:text-gray-200 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 overflow-y-auto space-y-6 text-xs md:text-sm text-gray-700 custom-scroll leading-relaxed">
+        
+        <!-- 1. Propósito Formativo -->
+        <div class="border-b border-gray-100 pb-4">
+          <h4 class="font-bold text-accent text-sm mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-bullseye"></i> 1. Propósito y Alcance Académico
+          </h4>
+          <p class="text-gray-600">
+            Este entorno interactivo ha sido desarrollado como instrumento de aprendizaje activo para los aspirantes al <strong>Curso de Ingreso a la Carrera de Medicina (Facultad de Ciencias Médicas - Universidad Católica de Cuyo)</strong>. Integra la macroanatomía del tubo digestivo continuo con los mecanismos histológicos, neuroendocrinos y de transporte molecular que rigen la motilidad, secreción, digestión y absorción de nutrientes.
+          </p>
+        </div>
+
+        <!-- 2. Guía Detallada Módulo por Módulo -->
+        <div class="border-b border-gray-100 pb-4">
+          <h4 class="font-bold text-accent text-sm mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-layer-group"></i> 2. Guía de Herramientas y Simuladores por Módulo
+          </h4>
+          
+          <div class="space-y-4 text-gray-600">
+            
+            <!-- Mod 1 -->
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-sky-800 flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-route"></i> Módulo 1: Organización General, Anatomía y Glándulas Anexas
+              </strong>
+              <p class="mb-1.5">
+                • <strong>Mapeo Anatómico Cráneo-Caudal (SVG Vectorial):</strong> Haz clic directamente sobre cada víscera en la ilustración de alta resolución (Boca/Faringe, Esófago con sus 3 estrechamientos, Estómago en "J", Hígado y Vías Biliares, Páncreas, Duodeno, Yeyuno-Íleon, Marco Cólico, Apéndice o Recto) para desplegar su ficha anatómica, longitud en centímetros/metros y funciones digestivas.<br>
+                • <strong>Estatus de Órganos Accesorios:</strong> Comprende por qué las glándulas salivales, el hígado y el páncreas son anexas (vierten sus secreciones a la luz sin que el bolo/quimo transite por su interior).<br>
+                • <strong>Etapas Fundamentales:</strong> Revisa el ciclo completo de ingestión, digestión mecánica, hidrólisis enzimática, secreción, absorción y egestión.
+              </p>
+            </div>
+
+            <!-- Mod 2 -->
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-purple-800 flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-layer-group"></i> Módulo 2: Histología de la Pared Digestiva y Control Neuroendocrino
+              </strong>
+              <p class="mb-1.5">
+                • <strong>Explorador Concéntrico de Capas:</strong> Haz clic sobre los anillos del corte transversal para analizar las 4 túnicas: <em>Mucosa</em> (epitelio cilíndrico vs. estratificado plano), <em>Submucosa</em> (plexo de Meissner secretor y vascular), <em>Muscular Externa</em> (circular interna, longitudinal externa y capa oblicua exclusiva del estómago; plexo de Auerbach para motilidad) y <em>Serosa / Adventicia</em>.<br>
+                • <strong>Regulación Dual:</strong> Compara el Sistema Nervioso Entérico ("Segundo Cerebro" con $approx 100	imes 10^6$ neuronas en reflejos cortos) frente al SNA (parasimpático vagal estimulante vs. simpático inhibitorio).
+              </p>
+            </div>
+
+            <!-- Mod 3 -->
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-rose-800 flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-utensils"></i> Módulo 3: Fisiología Bucal, Secreción Salival y Deglución
+              </strong>
+              <p class="mb-1.5">
+                • <strong>Glándulas Salivales:</strong> Analiza las características de las Parótidas (secreción serosa con ptialina/amilasa), Submandibulares (mixta seromucosa) y Sublinguales (mucosa), su volumen diario ($1000	ext{--}1500,	ext{mL/día}$) y $	ext{pH} approx 6.3	ext{--}6.8$.<br>
+                • <strong>Simulador Dinámico de Deglución:</strong> Pulsa los botones de las 3 fases (<em>Fase Oral Voluntaria</em>, <em>Fase Faríngea Involuntaria</em> con elevación palatina y cierre epiglótico protector, y <em>Fase Esofágica</em> con ondas peristálticas primarias/secundarias y apertura del $	ext{EEI}$). Incluye correlación clínica con la incompetencia del $	ext{EEI}$ y la enfermedad por reflujo gastroesofágico ($	ext{ERGE}$).
+              </p>
+            </div>
+
+            <!-- Mod 4 -->
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-sky-800 flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-flask"></i> Módulo 4: Fisiología Gástrica, Célula Parietal y Secreción de HCl
+              </strong>
+              <p class="mb-1.5">
+                • <strong>Glándulas Gástricas:</strong> Diferencia células mucosas (moco y $	ext{HCO}_3^-$), parietales/oxínticas ($	ext{HCl}$ y Factor Intrínseco para vitamina $	ext{B}_{12}$), principales/cimógenas (pepsinógeno y lipasa) y células G (gastrina).<br>
+                • <strong>Laboratorio Bioquímico de Bomba de Protones:</strong> Activa y desactiva los receptores basolaterales (+ Gastrina $	ext{CCK}_B$, + Acetilcolina $M_3$, + Histamina $H_2$) para observar en el monitor la tasa secretora de $	ext{H}^+$, la hidrólisis de anhidrasa carbónica, la extrusión apical por la $	ext{H}^+/	ext{K}^+ 	ext{ ATPasa}$, la "marea alcalina posprandial" basolateral y la activación del pepsinógeno en pepsina activa.
+              </p>
+            </div>
+
+            <!-- Mod 5 -->
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-amber-800 flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-vial-virus"></i> Módulo 5: Hígado, Vías Biliares, Páncreas y Regulación Neuroendocrina
+              </strong>
+              <p class="mb-1.5">
+                • <strong>Circulación Hepática Dual & Bilis:</strong> Estudia la mezcla sinusoide entre la arteria hepática ($	ext{O}_2$) y la vena porta (nutrientes), y la síntesis biliar canalicular en contracorriente.<br>
+                • <strong>Conmutador Hormonal:</strong> Dispara los estímulos de <em>Colecistoquinina (CCK)</em> (contracción de la vesícula biliar y relajación del esfínter de Oddi ante grasas) y <em>Secretina</em> (liberación hidroalcalina de $	ext{HCO}_3^-$ pancreático ante acidez duodenal), visualizando el efecto clínico en tiempo real.<br>
+                • <strong>Metabolismo de la Bilirrubina & Funciones Extradigestivas:</strong> Revisa la degradación de hemoglobina, ictericia por litiasis y síntesis hepática de albúmina, urea y factores de coagulación.
+              </p>
+            </div>
+
+            <!-- Mod 6 -->
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-accent flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-atom"></i> Módulo 6: Intestino Delgado y Mecanismos Bioquímicos de Absorción
+              </strong>
+              <p>
+                • <strong>Estrategias de Amplificación ($	imes 600$):</strong> Pliegues de Kerckring, vellosidades con vaso quilífero y microvellosidades del borde en cepillo.<br>
+                • <strong>Microscopio de Transporte Epitelial:</strong> Alterna entre <em>Carbohidratos</em> ($	ext{SGLT-1}, 	ext{GLUT-5}, 	ext{GLUT-2}$ hacia la porta), <em>Proteínas</em> (cotransporte $	ext{Na}^+$ y $	ext{PepT-1}$ con $	ext{H}^+$) y <em>Lípidos</em> (emulsión por sales biliares, micelas mixtas, reesterificación en REL y exocitosis de quilomicrones hacia el vaso quilífero linfático central).
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. Vademécum -->
+        <div class="border-b border-gray-100 pb-4">
+          <h4 class="font-bold text-accent text-sm mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-book-bookmark"></i> 3. Consulta del Vademécum Teórico
+          </h4>
+          <p class="text-gray-600">
+            En la barra superior encontrarás el acceso directo al <strong>Vademécum</strong>, donde se resumen en tablas de alta legibilidad los gradientes de $	ext{pH}$ por segmento anatómico, las reacciones de activación enzimática y las familias de cotransportadores epiteliales con sus correspondientes iones acoplados ($	ext{Na}^+, 	ext{H}^+$).
+          </p>
+        </div>
+
+        <!-- 4. Recomendaciones Pedagógicas -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-lightbulb"></i> 4. Recomendación Metodológica para el Ingreso a Medicina
+          </h4>
+          <p class="text-gray-600">
+            Se sugiere abordar el estudio en forma integradora: partir del trayecto anatómico continuo macroscópico, profundizar en la pared histológica y sus plexos, y culminar analizando la correlación entre la secreción química (enzimas y $	ext{pH}$) y el destino final de los nutrientes en el enterocito.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="bg-gray-50 p-4 border-t border-gray-200 flex justify-end">
+        <button onclick="closeTutorial()" class="px-5 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover text-xs transition shadow-sm">
+          ¡Entendido, Comenzar a Estudiar!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    // Tab Switching Controller
+    function switchTab(tabId) {
+      // Hide all sections
+      document.querySelectorAll('.module-view').forEach(view => {
+        view.classList.add('hidden');
+      });
+
+      // Show selected section
+      const target = document.getElementById('content-' + tabId);
+      if (target) {
+        target.classList.remove('hidden');
+      }
+
+      // Update Nav Buttons
+      document.querySelectorAll('#navTabs .nav-btn').forEach(btn => {
+        const isSelected = btn.getAttribute('data-tab') === tabId;
+        const isLast = btn.getAttribute('data-tab') === 'mod6';
+        const borderClass = isLast ? ' border-t lg:border-t border-gray-100' : '';
+        
+        if (isSelected) {
+          btn.className = "nav-btn bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm flex items-center gap-2" + borderClass;
+        } else {
+          btn.className = "nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2" + borderClass;
+        }
+      });
+
+      // Re-trigger LaTeX parsing on tab swap
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function openFormulasModal() {
+      const modal = document.getElementById('modal-formulas');
+      if (modal) {
+        modal.classList.remove('hidden');
+        try {
+          if (typeof renderMathInElement === 'function') {
+            renderMathInElement(modal, {
+              delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+              ],
+              throwOnError: false
+            });
+          }
+        } catch (e) {
+          console.warn('KaTeX render warning:', e);
+        }
+      }
+    }
+
+    function closeFormulasModal() {
+      const modal = document.getElementById('modal-formulas');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function openTutorial() {
+      const modal = document.getElementById('modal-tutorial');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeTutorial() {
+      const modal = document.getElementById('modal-tutorial');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Organ Data Store for Module 1
+    const organDB = {
+      mouth: {
+        tag: "Segmento Inicial",
+        dim: "Cavidad Bucal y Faringe",
+        title: "Boca y Faringe (Nasofaringe, Orofaringe, Laringofaringe)",
+        desc: "Límite superior del tubo continuo revestido de epitelio estratificado plano no queratinizado. Alberga la lengua para masticación mecánica y deglución. La faringe es una encrucijada aerodigestiva muscular dividida en naso (respiratoria pura), oro y laringofaringe.",
+        bullets: [
+          "Masticación voluntaria y conformación del bolo con saliva.",
+          "Inicio del clivaje de carbohidratos vía amilasa salival.",
+          "Encrucijada faríngea donde el reflejo deglutorio ocluye la vía respiratoria."
+        ]
+      },
+      esophagus: {
+        tag: "Tubo Continuo",
+        dim: "Longitud: $\\approx 25\\,\\text{cm}$",
+        title: "Esófago",
+        desc: "Conducto fibromuscular que conecta la faringe con el estómago atravesando el mediastino posterior y el hiato esofágico ($T_{10}$). Presenta 3 estrechamientos anatómicos: cricoideo, broncoórtico y diafragmático.",
+        bullets: [
+          "Tercio superior de músculo estriado esquelético; tercio inferior de músculo liso.",
+          "Peristaltismo primario (gatillado por deglución) y secundario (por distensión de remanentes).",
+          "El esfínter esofágico inferior (EEI) previene el reflujo ácido gástrico."
+        ]
+      },
+      stomach: {
+        tag: "Tubo Continuo Dilatado",
+        dim: "Capacidad: $\\approx 1.5\\,\\text{L}$",
+        title: "Estómago (Cardias, Fundus, Cuerpo y Píloro)",
+        desc: "Cámara en forma de 'J' interpuesta entre el esófago y el duodeno. Cuenta con 3 capas musculares (longitudinal externa, circular media y oblicua interna) que logran una potente molienda tridimensional del bolo en quimo ácido.",
+        bullets: [
+          "Secreción de $\\text{HCl}$ a $\\text{pH} \\approx 2$ y pepsinógeno por células parietales y principales.",
+          "Producción del Factor Intrínseco para la absorción de cobalamina (vitamina $\\text{B}_{12}$).",
+          "Células G antrales que liberan gastrina para estimular la motilidad y secreción ácida."
+        ]
+      },
+      liver: {
+        tag: "Glándula Anexa",
+        dim: "Peso: $\\approx 1.5\\,\\text{kg}$",
+        title: "Hígado y Vesícula Biliar",
+        desc: "La glándula metabólica más voluminosa del cuerpo humano. Produce bilis de forma ininterrumpida que se almacena y concentra hasta $10\\times$ en la vesícula biliar mediante la deshidratación de agua e iones.",
+        bullets: [
+          "Doble irrigación sanguínea: arteria hepática propia ($25\\%$) y vena porta ($75\\%$).",
+          "Las sales biliares emulsionan grasas facilitando la formación de micelas.",
+          "Órgano accesorio: el quimo jamás transita por su parénquima."
+        ]
+      },
+      pancreas: {
+        tag: "Glándula Mixta Anexa",
+        dim: "Longitud: $\\approx 15\\,\\text{cm}$",
+        title: "Páncreas Exocrino",
+        desc: "Glándula retroperitoneal en íntimo contacto con el marco duodenal. Su componente exocrino ($98\\%$) secreta jugo pancreático alcalino ($\text{rico en } \\text{HCO}_3^-$) y zimógenos para neutralizar el quimo duodenal.",
+        bullets: [
+          "Drena por el conducto principal de Wirsung hacia la ampolla de Vater.",
+          "Secreta tripsinógeno, quimotripsinógeno, procarboxipeptidasa, lipasa y amilasa.",
+          "Regulado coordinadamente por Secretina (agua/$\\text{HCO}_3^-$) y $\\text{CCK}$ (enzimas)."
+        ]
+      },
+      small_intestine: {
+        tag: "Tubo Continuo Absortivo",
+        dim: "Duodeno $\\approx 25\\,\\text{cm}$, Yeyuno $\\approx 1\\,\\text{m}$, Íleon $\\approx 2\\,\\text{m}$",
+        title: "Intestino Delgado",
+        desc: "Principal sede anatómica y molecular de digestión enzimática terminal y absorción. Finaliza en la válvula ileocecal que regula el paso intermitente al ciego e impide el reflujo bacteriano.",
+        bullets: [
+          "Pliegues de Kerckring, vellosidades y microvellosidades multiplican el área $\\times 600$.",
+          "Criptas de Lieberkühn con células madre, células caliciformes y células de Paneth defensivas.",
+          "Glándulas de Brunner duodenales secretoras de moco alcalino neutralizante."
+        ]
+      },
+      large_intestine: {
+        tag: "Tubo Continuo Terminal",
+        dim: "Longitud: $\\approx 1.5\\,\\text{m}$",
+        title: "Intestino Grueso / Colon",
+        desc: "Comprende el ciego con el apéndice vermiforme, colon ascendente, transverso, descendente y sigmoideo. Caracterizado externamente por haustras, tenias del colon y apéndices epiploicos.",
+        bullets: [
+          "Reabsorción activa masiva de agua ($\approx 1.5\\,\\text{L/día}$) y electrólitos ($\text{Na}^+, \\text{Cl}^-$).",
+          "Microbiota colónica comensal sintetizadora de vitamina $\\text{K}$ y biotina.",
+          "Compactación y almacenamiento del bolo fecal previo a la egestión."
+        ]
+      },
+      rectum: {
+        tag: "Segmento de Egestión",
+        dim: "Longitud: $\\approx 15\\text{--}18\\,\\text{cm}$",
+        title: "Recto y Conducto Anal",
+        desc: "Porción terminal que culmina en el esfínter anal interno (músculo liso involuntario) y esfínter anal externo (músculo estriado esquelético bajo control voluntario).",
+        bullets: [
+          "Reflejo de defecación parasimpático desencadenado por distensión ampular rectal.",
+          "Transición epitelial brusca en la línea pectínea a epitelio estratificado plano cutáneo.",
+          "Mecanismo de continencia coordinado por el músculo puborrectal y esfínteres."
+        ]
+      }
+    };
+
+    function selectOrgan(key) {
+      const data = organDB[key];
+      if (!data) return;
+
+      document.getElementById('detail-tag').innerText = data.tag;
+      document.getElementById('detail-dim').innerHTML = data.dim;
+      document.getElementById('detail-title').innerText = data.title;
+      document.getElementById('detail-desc').innerHTML = data.desc;
+
+      const listContainer = document.getElementById('detail-list');
+      listContainer.innerHTML = '';
+      data.bullets.forEach(b => {
+        const li = document.createElement('li');
+        li.innerHTML = b;
+        listContainer.appendChild(li);
+      });
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById('organ-detail'), {
+          delimiters: [{left: '$', right: '$', display: false}]
+        });
+      }
+    }
+
+    // Histology Layers Data Store
+    const histoDB = {
+      mucosa: {
+        badge: "Capa 1 (Interna / Luminal)",
+        epith: "Epitelio Cilíndrico o Estratificado",
+        name: "Túnica Mucosa",
+        desc: "Epitelio protector en zonas de fricción (estratificado plano en boca, faringe, esófago y conducto anal) vs. epitelio cilíndrico simple secretor/absortivo con microvellosidades en estómago e intestinos. Contiene lámina propia rica en vasos y tejido linfoide (MALT/GALT), y la muscularis mucosae que genera micropliegues autónomos.",
+        spec: "Aloja enterocitos, células caliciformes mucosas y células enteroendocrinas quimiosensoras."
+      },
+      submucosa: {
+        badge: "Capa 2",
+        epith: "Tejido Conectivo Denso Vascularizado",
+        name: "Túnica Submucosa (Plexo de Meissner)",
+        desc: "Capa de sostén conectivo con abundantes arteriolas, vénulas y vasos linfáticos. Alberga el <strong>Plexo Submucoso de Meissner</strong>, responsable primordial del control intrínseco de la secreción glandular parietal y el tono vasomotor del flujo sanguíneo local.",
+        spec: "En duodeno presenta las Glándulas de Brunner que secretan moco alcalino para proteger de la acidez."
+      },
+      muscular: {
+        badge: "Capa 3",
+        epith: "Músculo Liso (Circular + Longitudinal)",
+        name: "Túnica Muscular Externa (Plexo de Auerbach)",
+        desc: "Compuesta por una capa circular interna (cierra la luz y segmenta) y longitudinal externa (acorta el tubo peristálticamente). En el estómago existe una tercera capa: oblicua interna. Entre ambas láminas reside el <strong>Plexo Mientérico de Auerbach</strong> que rige el peristaltismo.",
+        spec: "Músculo estriado esquelético voluntario en boca, faringe, tercio superior esofágico y esfínter anal externo; músculo liso involuntario en el resto."
+      },
+      serosa: {
+        badge: "Capa 4 (Externa)",
+        epith: "Mesotelio Seroso / Conectivo Laxo",
+        name: "Túnica Serosa o Adventicia",
+        desc: "Constituida por una capa de epitelio plano simple mesotelial sobre conectivo (peritoneo visceral) en órganos intraperitoneales (estómago, yeyuno, íleon, colon transverso). En órganos fijos o retroperitoneales como el esófago, es sustituida por una capa <strong>adventicia</strong> de conectivo laxo que fusiona el órgano con estructuras vecinas.",
+        spec: "Permite el deslizamiento visceral libre sin fricción durante el peristaltismo."
+      }
+    };
+
+    function selectHistoLayer(key) {
+      const h = histoDB[key];
+      if (!h) return;
+
+      document.getElementById('histo-badge').innerText = h.badge;
+      document.getElementById('histo-epith').innerText = h.epith;
+      document.getElementById('histo-name').innerText = h.name;
+      document.getElementById('histo-desc').innerHTML = h.desc;
+      document.getElementById('histo-spec').innerHTML = h.spec;
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById('histo-card'), {
+          delimiters: [{left: '$', right: '$', display: false}]
+        });
+      }
+    }
+
+    // Deglutition Simulator
+    function setDeglutitionStage(stage) {
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById('btn-deg-' + i);
+        if (i === stage) {
+          btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-rose-600 text-white shadow-sm transition-all";
+        } else {
+          btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:text-slate-900 transition-all";
+        }
+      }
+
+      const bolus = document.getElementById('food-bolus');
+      const softPalate = document.getElementById('soft-palate');
+      const epiglottis = document.getElementById('epiglottis');
+
+      if (stage === 1) {
+        // Oral stage: bolus on tongue, airway open
+        bolus.setAttribute('cx', '170');
+        bolus.setAttribute('cy', '135');
+        softPalate.setAttribute('d', 'M 210,110 Q 230,120 235,140');
+        epiglottis.setAttribute('transform', 'rotate(0 230 205)');
+
+        document.getElementById('deg-phase-title').innerText = "Fase 1: Fase Oral (Voluntaria)";
+        document.getElementById('deg-phase-desc').innerHTML = "El bolo alimenticio masticado e insalivado es compactado contra el paladar duro por la contracción voluntaria de la musculatura lingual, propulsándolo hacia el istmo de las fauces y orofaringe.";
+        document.getElementById('deg-phase-physio').innerHTML = "Control por el nervio hipogloso ($\\text{NC XII}$). La entrada en la faringe activa de forma refleja el centro bulbar deglutorio.";
+      } else if (stage === 2) {
+        // Pharyngeal stage: soft palate rises to seal nasopharynx, epiglottis bends down to block trachea
+        bolus.setAttribute('cx', '245');
+        bolus.setAttribute('cy', '185');
+        softPalate.setAttribute('d', 'M 210,110 Q 230,95 240,90'); // elevated
+        epiglottis.setAttribute('transform', 'rotate(65 230 205)'); // bent down blocking airway
+
+        document.getElementById('deg-phase-title').innerText = "Fase 2: Fase Faríngea (Refleja Involuntaria)";
+        document.getElementById('deg-phase-desc').innerHTML = "¡Momento crítico de resguardo de la vía respiratoria! 1. Elevación del paladar blando que ocluye la nasofaringe. 2. Elevación laríngea y basculación de la <strong>epiglotis</strong> sobre la glotis. 3. Inhibición momentánea del centro respiratorio (apnea deglutoria). 4. Apertura del EES.";
+        document.getElementById('deg-phase-physio').innerHTML = "Regulado por el centro de la deglución en el bulbo raquídeo vía nervios glosofaríngeo ($\\text{NC IX}$) y vago ($\\text{NC X}$). Previene la broncoaspiración.";
+      } else if (stage === 3) {
+        // Esophageal stage: bolus travels down esophagus, epiglottis re-opens
+        bolus.setAttribute('cx', '275');
+        bolus.setAttribute('cy', '270');
+        softPalate.setAttribute('d', 'M 210,110 Q 230,120 235,140'); // relaxed
+        epiglottis.setAttribute('transform', 'rotate(0 230 205)'); // upright
+
+        document.getElementById('deg-phase-title').innerText = "Fase 3: Fase Esofágica (Peristaltismo Involuntario)";
+        document.getElementById('deg-phase-desc').innerHTML = "El bolo desciende impulsado por una onda de contracción circular proximal y relajación distal (peristalsis primaria a $2\text{--}4\,\text{cm/s}$). Al aproximarse al cardias, el esfínter esofágico inferior (EEI) se relaja de forma refleja para dar ingreso al estómago.";
+        document.getElementById('deg-phase-physio').innerHTML = "Coordinado por el Plexo de Auerbach y el nervio vago. Las glándulas esofágicas secretan moco exclusivamente lubricante; no hay actividad enzimática ni absortiva en este tubo.";
+      }
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById('deg-phase-desc'), {
+          delimiters: [{left: '$', right: '$', display: false}]
+        });
+      }
+    }
+
+    // Parietal Cell Acid Secretion Stimulators
+    const parietalState = {
+      gastrin: false,
+      ach: false,
+      histamine: false
+    };
+
+    function toggleParietalStim(key) {
+      parietalState[key] = !parietalState[key];
+      const btn = document.getElementById('btn-stim-' + key);
+      
+      if (parietalState[key]) {
+        btn.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-300');
+        btn.classList.add('bg-sky-600', 'text-white', 'border-sky-700', 'shadow-sm');
+      } else {
+        btn.classList.remove('bg-sky-600', 'text-white', 'border-sky-700', 'shadow-sm');
+        btn.classList.add('bg-slate-100', 'text-slate-700', 'border-slate-300');
+      }
+
+      let activeCount = (parietalState.gastrin ? 1 : 0) + (parietalState.ach ? 1 : 0) + (parietalState.histamine ? 1 : 0);
+      let percentage = 15; // basal
+      let label = "Basal (15%)";
+
+      if (activeCount === 1) {
+        percentage = 45;
+        label = "Moderada (45%)";
+      } else if (activeCount === 2) {
+        percentage = 75;
+        label = "Elevada (75%)";
+      } else if (activeCount === 3) {
+        percentage = 100;
+        label = "Máxima Potenciación (100%) - pH ~ 1.5";
+      }
+
+      document.getElementById('rate-bar').style.width = percentage + '%';
+      document.getElementById('rate-display').innerText = label;
+    }
+
+    // Hormonal Switch: CCK vs Secretin
+    function triggerHormone(type) {
+      const btnCCK = document.getElementById('btn-cck');
+      const btnSec = document.getElementById('btn-secretin');
+      const effectBox = document.getElementById('hormone-effect');
+
+      if (type === 'cck') {
+        btnCCK.className = "p-3 rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold text-xs text-left shadow-sm transition-all";
+        btnSec.className = "p-3 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold text-xs text-left shadow-sm hover:border-sky-300 transition-all";
+
+        effectBox.innerHTML = `
+          <span class="text-emerald-400 font-bold block">Respuesta a Colecistoquinina ($\\text{CCK}$):</span>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            • <strong>Vesícula Biliar:</strong> Contracción enérgica de su capa muscular lisa expulsando bilis concentrada.
+            <br>• <strong>Esfínter de Oddi:</strong> Relajación coordinada para permitir el flujo biliar y pancreático a la luz duodenal.
+            <br>• <strong>Páncreas Acinar:</strong> Síntesis masiva de proteasas inactivas, lipasa pancreática y amilasa.
+          </p>
+        `;
+      } else {
+        btnSec.className = "p-3 rounded-xl border border-sky-500 bg-sky-50 text-sky-900 font-semibold text-xs text-left shadow-sm transition-all";
+        btnCCK.className = "p-3 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold text-xs text-left shadow-sm hover:border-emerald-300 transition-all";
+
+        effectBox.innerHTML = `
+          <span class="text-sky-400 font-bold block">Respuesta a Secretina (Células S Duodenales):</span>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            • <strong>Conductos Pancreáticos & Canalículos Hepáticos:</strong> Secreción masiva de líquido acuoso rico en bicarbonato ($\\text{HCO}_3^-$ a $\\text{pH} \\approx 8.0$).
+            <br>• <strong>Neutralización del Quimo Ácido:</strong> Eleva el $\\text{pH}$ intraluminal protegiendo la mucosa duodenal y otorgando el $\\text{pH}$ óptimo alcalino a las enzimas digestivas.
+            <br>• <strong>Inhibición Gástrica:</strong> Frena la gastrina y la motilidad del estómago (reflejo enterogástrico).
+          </p>
+        `;
+      }
+
+      if (window.renderMathInElement) {
+        renderMathInElement(effectBox, {
+          delimiters: [{left: '$', right: '$', display: false}]
+        });
+      }
+    }
+
+    // Molecular Enterocyte Nutrients Store
+    const nutrientDB = {
+      carbs: {
+        title: "Absorción de Glúcidos (Monosacáridos)",
+        apical1: "SGLT-1",
+        apical2: "GLUT-5",
+        baso: "GLUT-2",
+        apicalText: "• <strong>Glucosa y Galactosa:</strong> Cotransporte activo secundario con $\\text{Na}^+$ por el transportador <span class='font-mono font-bold text-sky-700'>SGLT-1</span> (aprovecha el gradiente quimiosmótico creado por la $\\text{Na}^+/\\text{K}^+ \\text{ ATPasa}$).<br>• <strong>Fructosa:</strong> Difusión facilitada independiente de energía mediante <span class='font-mono font-bold text-amber-700'>GLUT-5</span>.",
+        basoText: "• Todos los monosacáridos (glucosa, galactosa, fructosa) abandonan el enterocito hacia el espacio intersticial y capilares portales por difusión facilitada universal a través de <span class='font-mono font-bold text-emerald-700'>GLUT-2</span>.",
+        clinical: "<span class='font-bold text-amber-900 block mb-0.5'><i class='fa-solid fa-triangle-exclamation mr-1'></i> Intolerancia a la Lactosa</span><p class='text-[11px] text-amber-800 leading-relaxed'>La falta de enzima lactasa en el ribete en cepillo deja lactosa intacta en la luz intestinal. Retiene agua por ósmosis y produce fermentación bacteriana colónica con gases $(\\text{H}_2, \\text{CH}_4)$ y cólicos.</p>"
+      },
+      proteins: {
+        title: "Absorción de Proteínas (Aminoácidos y Oligopéptidos)",
+        apical1: "Na+/AA",
+        apical2: "PepT-1",
+        baso: "AA-Trans",
+        apicalText: "• <strong>Aminoácidos Libres:</strong> Cotransporte activo secundario dependiente de $\\text{Na}^+$.<br>• <strong>Dipéptidos y Tripéptidos:</strong> Cotransporte electrogénico activo secundario acoplado a protones $(\\text{H}^+)$ mediante <span class='font-mono font-bold text-amber-700'>PepT-1</span>. Dentro del citosol, peptidasas intracelulares los hidrolizan a aminoácidos libres.",
+        basoText: "• Los aminoácidos individuales salen por transportadores específicos basolaterales de aminoácidos hacia la circulación portal venosa rumbo al hígado.",
+        clinical: "<span class='font-bold text-indigo-900 block mb-0.5'><i class='fa-solid fa-notes-medical mr-1'></i> Enfermedad Celíaca</span><p class='text-[11px] text-indigo-800 leading-relaxed'>Reacción autoinmune contra la gliadina del gluten que destruye las vellosidades intestinales (atrofia vellositaria), borrando el borde en cepillo y desencadenando un severo síndrome de malabsorción generalizada.</p>"
+      },
+      lipids: {
+        title: "Absorción de Lípidos y Formación de Quilomicrones",
+        apical1: "Micelas",
+        apical2: "Difusión",
+        baso: "Quilomicrón",
+        apicalText: "• Las <strong>sales biliares</strong> forman <strong>micelas mixtas</strong> hidrosolubles que transportan ácidos grasos libres, monoglicéridos, colesterol y vitaminas liposolubles ($\\text{A, D, E, K}$) hasta las microvellosidades, donde difunden a través de la bicapa lipídica apical.",
+        basoText: "• En el retículo endoplásmico liso se resintetizan triglicéridos y se ensamblan <strong>Quilomicrones</strong> (con apoproteínas como ApoB-48). Debido a su gran tamaño ($\\approx 100\text{--}500\\,\\text{nm}$), no pueden ingresar a los capilares sanguíneos y se exocitan hacia el <span class='font-bold text-amber-700'>vaso quilífero linfático central</span>.",
+        clinical: "<span class='font-bold text-rose-900 block mb-0.5'><i class='fa-solid fa-notes-medical mr-1'></i> Esteatorrea e Ictericia Obstructiva</span><p class='text-[11px] text-rose-800 leading-relaxed'>Si un cálculo biliar bloquea el colédoco o ampolla de Vater, las sales biliares no llegan al duodeno: se interrumpe la micelización de grasas, produciendo heces grasosas pálidas (esteatorrea) y déficit de absorción de vitaminas liposolubles ($\\text{A, D, E, K}$).</p>"
+      }
+    };
+
+    function setNutrient(type) {
+      const data = nutrientDB[type];
+      if (!data) return;
+
+      ['carbs', 'proteins', 'lipids'].forEach(t => {
+        const btn = document.getElementById('btn-nut-' + t);
+        if (t === type) {
+          btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-sm transition-all";
+        } else {
+          btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:text-slate-900 transition-all";
+        }
+      });
+
+      document.getElementById('nut-title').innerText = data.title;
+      document.getElementById('txt-apical-1').innerText = data.apical1;
+      document.getElementById('txt-apical-2').innerText = data.apical2;
+      document.getElementById('txt-baso').innerText = data.baso;
+      document.getElementById('nut-apical').innerHTML = data.apicalText;
+      document.getElementById('nut-baso').innerHTML = data.basoText;
+      document.getElementById('nut-clinical').innerHTML = data.clinical;
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById('content-mod6'), {
+          delimiters: [{left: '$', right: '$', display: false}]
+        });
+      }
+    }
+
+    // Initialize KaTeX formulas on document load
+    function renderMathInDocument() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set initial deglutition stage
+      setDeglutitionStage(1);
+      // Math initial rendering
+      setTimeout(renderMathInDocument, 300);
+    });
+  
+  </script>
+</body>
+</html>
